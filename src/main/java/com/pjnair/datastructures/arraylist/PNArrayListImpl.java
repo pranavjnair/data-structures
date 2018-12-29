@@ -1,10 +1,10 @@
 package com.pjnair.datastructures.arraylist;
 
-import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
- * add comments here
+ * Implementation of ArrayList Data Structure
  * @param <T>
  */
 public class PNArrayListImpl<T> implements PNArrayList<T>, Iterable<T> {
@@ -58,7 +58,7 @@ public class PNArrayListImpl<T> implements PNArrayList<T>, Iterable<T> {
 
     @Override
     public void clear() {
-        this.array = (T[]) new Object[INITIAL_SIZE];
+        this.array = (T[]) new Object[this.array.length];
         this.size = 0;
     }
 
@@ -117,10 +117,11 @@ public class PNArrayListImpl<T> implements PNArrayList<T>, Iterable<T> {
                 T[] leftArray = (T[]) PNArrays.copyOfRange(this.array, 0, i);
                 T[] rightArray = (T[]) PNArrays.copyOfRange(this.array, i, this.array.length);
                 this.array = (T[]) combineArrays(leftArray, rightArray);
-                break;
+                this.size--;
+                return;
             }
         }
-        this.size--;
+        throw new NoSuchElementException();
     }
 
     @Override
