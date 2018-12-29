@@ -1,10 +1,10 @@
 package com.pjnair.datastructures.arraylist;
 
-import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
- * add comments here
+ * Implementation of ArrayList Data Structure
  * @param <T>
  */
 public class PNArrayListImpl<T> implements PNArrayList<T>, Iterable<T> {
@@ -21,7 +21,7 @@ public class PNArrayListImpl<T> implements PNArrayList<T>, Iterable<T> {
 
     private void expandArray() {
         if (this.size >= this.array.length) {
-            this.array = Arrays.copyOf(this.array, this.array.length * 2);
+            this.array = (T[]) PNArrays.copyOf(this.array, this.array.length * 2);
         }
     }
 
@@ -37,8 +37,8 @@ public class PNArrayListImpl<T> implements PNArrayList<T>, Iterable<T> {
         if (index > this.size || index < 0) {
             throw new IndexOutOfBoundsException();
         }
-        T[] leftArray = Arrays.copyOfRange(this.array, 0, index);
-        T[] rightArray = Arrays.copyOfRange(this.array, index, this.array.length);
+        T[] leftArray = (T[]) PNArrays.copyOfRange(this.array, 0, index);
+        T[] rightArray = (T[]) PNArrays.copyOfRange(this.array, index, this.array.length);
         T[] resultArray = (T[]) combineArrays(leftArray, t, rightArray);
         this.array = resultArray;
         this.size++;
@@ -58,7 +58,7 @@ public class PNArrayListImpl<T> implements PNArrayList<T>, Iterable<T> {
 
     @Override
     public void clear() {
-        this.array = (T[]) new Object[INITIAL_SIZE];
+        this.array = (T[]) new Object[this.array.length];
         this.size = 0;
     }
 
@@ -93,8 +93,8 @@ public class PNArrayListImpl<T> implements PNArrayList<T>, Iterable<T> {
         if (index > this.size || index < 0) {
             throw new IndexOutOfBoundsException();
         }
-        T[] leftArray = Arrays.copyOfRange(this.array, 0, index);
-        T[] rightArray = Arrays.copyOfRange(this.array, index, this.array.length);
+        T[] leftArray = (T[]) PNArrays.copyOfRange(this.array, 0, index);
+        T[] rightArray = (T[]) PNArrays.copyOfRange(this.array, index, this.array.length);
         this.array = (T[]) combineArrays(leftArray, rightArray);
         this.size--;
     }
@@ -114,13 +114,14 @@ public class PNArrayListImpl<T> implements PNArrayList<T>, Iterable<T> {
     public void remove(Object o) {
         for (int i = 0; i < this.array.length; i++) {
             if (this.array[i] == o || this.array[i].equals(o)) {
-                T[] leftArray = Arrays.copyOfRange(this.array, 0, i);
-                T[] rightArray = Arrays.copyOfRange(this.array, i, this.array.length);
+                T[] leftArray = (T[]) PNArrays.copyOfRange(this.array, 0, i);
+                T[] rightArray = (T[]) PNArrays.copyOfRange(this.array, i, this.array.length);
                 this.array = (T[]) combineArrays(leftArray, rightArray);
-                break;
+                this.size--;
+                return;
             }
         }
-        this.size--;
+        throw new NoSuchElementException();
     }
 
     @Override

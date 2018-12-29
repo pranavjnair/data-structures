@@ -6,13 +6,18 @@ This project contains a implementations for the following data strcutures
 
 ## Data Structures
 ### ArrayList
-Some description goes here
+Implementation of ArrayList using array
 ### Stack
 Some description goes here
 ### Queue
 Some description goes here
-### Linked List
+### Heap (max)
 Some description goes here
+### Binary Search Tree
+Some description goes here
+### Hashtable
+Some description goes here
+
 
 
 ## Testing the Code
