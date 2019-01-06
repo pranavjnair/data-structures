@@ -6,9 +6,9 @@ import org.junit.Test;
 
 import java.util.Iterator;
 
-public class PJArrayListTest {
+public class PNArrayListTest {
 
-    PNArrayListImpl<Integer> pnArrayList = null;
+    PNArrayListImpl<Integer> pnArrayList;
     Integer e1 = 1, e2 = 2, e3 = 3, e4 = null;
 
     @Before
@@ -83,17 +83,5 @@ public class PJArrayListTest {
         pnArrayList.add(e2);
         pnArrayList.remove(0);
         Assert.assertTrue(pnArrayList.get(0) == e2);
-    }
-
-    @Test
-    public void remove1() throws Exception {
-    }
-
-    @Test
-    public void set() throws Exception {
-    }
-
-    @Test
-    public void size() throws Exception {
     }
 }
