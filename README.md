@@ -6,15 +6,15 @@ This project contains a implementations for the following data strcutures
 
 ## Data Structures
 ### ArrayList
-Implementation of ArrayList using array
+Implementation of ArrayList using Array
 ### Stack
-Some description goes here
+Implementation of Stack using both LinkedNodes and Array
 ### Queue
-Some description goes here
-### Heap (max)
-Some description goes here
-### Binary Search Tree
-Some description goes here
+Implementation of Queue using LinkedNodes
+### Heap (min)
+Implementation of Heap using Array
+### Binary Tree
+Implementation of Binary Tree using LinkedNodes
 ### Hashtable
 Some description goes here
 
