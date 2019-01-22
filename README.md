@@ -24,6 +24,5 @@ Implementation of the AVL Tree data structure
 ## Testing the Code
 
 ## TODO
-- finish AVL Tree
-- JUnit 5
+- work on insert with avl tree
 
