@@ -8,11 +8,8 @@ public class PNBinaryTreeImpl<T extends Comparable<T>> implements PNBinaryTree<T
 
     private PNLinkedNode<T> head;
 
-    private int numberNodes;
-
     public PNBinaryTreeImpl() {
         this.head = null;
-        this.numberNodes = 0;
     }
 
     @Override
@@ -37,10 +34,6 @@ public class PNBinaryTreeImpl<T extends Comparable<T>> implements PNBinaryTree<T
             } else {
                 insertNode(currentNode.getRightNode(), t);
             }
-        }
-        this.numberNodes++;
-        if (rebalanceRequired(this.head)){
-
         }
     }
 
@@ -137,20 +130,20 @@ public class PNBinaryTreeImpl<T extends Comparable<T>> implements PNBinaryTree<T
         }
     }
 
-    private boolean rebalanceRequired(PNLinkedNode<T> currentNode) {
-        if (currentNode == null) {
-            return false;
-        } else {
-            int leftSide = treeHeight(currentNode.getLeftNode());
-            int rightSide = treeHeight(currentNode.getRightNode());
-            if (leftSide != rightSide || leftSide + 1 != rightSide || leftSide - 1 != rightSide) {
-                return true;
-            }
-            return false;
+    public List<T> getAllData() {
+        List<T> result = new ArrayList<>();
+        if (!isEmpty()) {
+            getAllDataSorted(this.head, result);
+        }
+        return result;
+    }
+
+    private void getAllDataSorted(PNLinkedNode<T> currentNode, List<T> allData) {
+        if (currentNode != null) {
+            getAllDataSorted(currentNode.getLeftNode(), allData);
+            allData.add(currentNode.getData());
+            getAllDataSorted(currentNode.getRightNode(), allData);
         }
     }
 
-    private void rebalance(PNLinkedNode<T> T){
-
-    }
 }
