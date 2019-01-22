@@ -16,14 +16,13 @@ Implementation of Heap using Array
 ### Binary Tree
 Implementation of Binary Tree using LinkedNodes
 ### Hashtable
-Some description goes here
-
-
+Implementation of Hashtable
+### AVL Tree 
+Implementation of the AVL Tree data structure
 
 ## Testing the Code
 
-
 ## TODO
-- read about TDD (test driven development)
+- finish AVL Tree
 - JUnit 5
 
