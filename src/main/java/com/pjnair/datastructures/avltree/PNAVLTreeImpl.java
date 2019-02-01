@@ -6,7 +6,7 @@ public class PNAVLTreeImpl<T extends Comparable<T>> implements PNAVLTree<T> {
 
     private PNLinkedNode<T> head;
 
-    public PNAVLTreeImpl(){
+    public PNAVLTreeImpl() {
         this.head = null;
     }
 
@@ -33,6 +33,7 @@ public class PNAVLTreeImpl<T extends Comparable<T>> implements PNAVLTree<T> {
                 insertNode(currentNode.getRightNode(), t);
             }
         }
+        System.out.println(rebalanceTree(this.head));
     }
 
     @Override
@@ -126,5 +127,14 @@ public class PNAVLTreeImpl<T extends Comparable<T>> implements PNAVLTree<T> {
                 return (rightSide + 1);
             }
         }
+    }
+
+    private boolean rebalanceTree(PNLinkedNode<T> currentNode) {
+        int leftSide = treeHeight(currentNode.getLeftNode());
+        int rightSide = treeHeight(currentNode.getRightNode());
+        if (leftSide == rightSide || leftSide + 1 == rightSide || leftSide - 1 == rightSide) {
+            return false;
+        }
+        return true;
     }
 }

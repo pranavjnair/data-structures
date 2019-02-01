@@ -1,11 +1,14 @@
 package com.pjnair.datastructures.hashtable;
 
-public class PNHashNode<K,V> {
+import java.util.Iterator;
+
+public class PNHashNode<K, V> {
+
     private K key;
     private V value;
-    private PNHashNode<K,V> nextNode;
+    private PNHashNode<K, V> nextNode;
 
-    public PNHashNode(K key, V value){
+    public PNHashNode(K key, V value) {
         this.key = key;
         this.value = value;
         this.nextNode = null;
@@ -19,10 +22,6 @@ public class PNHashNode<K,V> {
         return value;
     }
 
-    public void setValue(V value) {
-        this.value = value;
-    }
-
     public void setNextNode(PNHashNode<K, V> nextNode) {
         this.nextNode = nextNode;
     }
@@ -30,4 +29,5 @@ public class PNHashNode<K,V> {
     public PNHashNode<K, V> getNextNode() {
         return nextNode;
     }
+
 }

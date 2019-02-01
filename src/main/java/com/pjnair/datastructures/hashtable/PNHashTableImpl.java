@@ -1,107 +1,85 @@
 package com.pjnair.datastructures.hashtable;
 
-import java.util.ArrayList;
-
 public class PNHashTableImpl<K, V> implements PNHashTable<K, V> {
-    private ArrayList<PNHashNode<K, V>> nodeArrayList;
 
-    private static int capacityArrayList, sizeArrayList;
+    private PNHashNode[] pnHashNodes;
 
-    private static final int CAPACITY = 5;
+    private final int INITIAL_CAPACITY = 5;
+
+    private static int capacityArray = 0;
 
     public PNHashTableImpl() {
-        this.nodeArrayList = new ArrayList<>(CAPACITY);
-        capacityArrayList = CAPACITY;
-        sizeArrayList = 0;
+        this.pnHashNodes = new PNHashNode[INITIAL_CAPACITY];
+        for (int i = 0; i < pnHashNodes.length; i++) {
+            this.pnHashNodes[i] = null;
+        }
     }
 
     @Override
     public void clear() {
-        this.nodeArrayList = new ArrayList<>(capacityArrayList);
+        this.pnHashNodes = new PNHashNode[this.pnHashNodes.length];
+        capacityArray = 0;
+        for (int i = 0; i < pnHashNodes.length; i++) {
+            this.pnHashNodes[i] = null;
+        }
     }
 
     @Override
     public boolean isEmpty() {
-        if (sizeArrayList == 0) {
+        if (capacityArray == 0) {
             return true;
         }
         return false;
     }
 
-    private int getNodeIndex(K key) { // Hash function
-        int hashCode = key.hashCode();
-        int index = hashCode % capacityArrayList;
-        return index;
-    }
-
     @Override
     public V get(K key) {
-        int nodeIndex = getNodeIndex(key);
-        PNHashNode<K, V> head = nodeArrayList.get(nodeIndex);
-        while (head != null) {
-            if (head.getKey().equals(key)) {
-                return head.getValue();
+        PNHashNode<K, V> currentNode = pnHashNodes[getHashedIndex(key)];
+        while (currentNode != null) {
+            if (currentNode.getKey().equals(key)) {
+                return currentNode.getValue();
             }
-            head = head.getNextNode();
+            currentNode = currentNode.getNextNode();
         }
         return null;
     }
 
     @Override
     public V remove(K key) {
-        int bucketIndex = getNodeIndex(key);
-        PNHashNode<K, V> head = nodeArrayList.get(bucketIndex);
-        PNHashNode<K, V> prev = null;
-        while (head != null) {
-            if (head.getKey().equals(key)) {
-                break;
+        PNHashNode<K, V> currentNode = pnHashNodes[getHashedIndex(key)];
+        while (currentNode != null) {
+            if (currentNode.getKey().equals(key)) {
+                PNHashNode<K,V> bufferNode = currentNode;
+                currentNode = currentNode.getNextNode();
+                return bufferNode.getValue();
+
             }
-            prev = head;
-            head = head.getNextNode();
+            currentNode = currentNode.getNextNode();
         }
-        if (head == null) { // key was never found
-            return null;
-        }
-        if (prev != null) { // previous node exists
-            prev.setNextNode(head.getNextNode());
-        } else {
-            nodeArrayList.set(bucketIndex, head.getNextNode());
-        }
-        sizeArrayList--;
-        return head.getValue();
+        return null;
     }
 
     @Override
     public void add(K key, V value) {
-        int nodeIndex = getNodeIndex(key);
-        PNHashNode<K, V> head = nodeArrayList.get(nodeIndex);
-        while (head != null) { // Checks if element already exists in Hashtable
-            if (head.getKey().equals(key)) {
-                head.setValue(value);
-                return;
+        PNHashNode currentNode = null;
+        if (this.pnHashNodes[getHashedIndex(key)] == null) {
+            this.pnHashNodes[getHashedIndex(key)] = new PNHashNode(key, value);
+        } else {
+            currentNode = this.pnHashNodes[getHashedIndex(key)];
+            while (currentNode.getNextNode() != null) {
+                if (currentNode.getValue().equals(value)) { // checks if key already exists
+                    return;
+                }
+                currentNode = currentNode.getNextNode(); // increment
             }
-            head = head.getNextNode();
+            currentNode.setNextNode(new PNHashNode(key, value)); // adds to end of linked list
         }
-        head = nodeArrayList.get(nodeIndex); // sets element back to head reference of linked list
-        PNHashNode<K, V> newNode = new PNHashNode<>(key, value);
-        newNode.setNextNode(head);
-        nodeArrayList.set(nodeIndex, newNode); // makes the head the new node
-        sizeArrayList++;
-        expandHashTable();
+        if (((1.0 * capacityArray) / pnHashNodes.length) >= .7) {
+            this.pnHashNodes = (PNHashNode[]) PNArrays.copyOf(this.pnHashNodes, this.pnHashNodes.length * 2);
+        }
     }
 
-    private void expandHashTable() {
-        if ((sizeArrayList / capacityArrayList) >= 0.75) {
-            ArrayList<PNHashNode<K, V>> temp = nodeArrayList;
-            capacityArrayList = 2 * capacityArrayList;
-            sizeArrayList = 0;
-            nodeArrayList = new ArrayList<>(capacityArrayList);
-            for (PNHashNode<K, V> headNode : temp) {
-                while (headNode != null) {
-                    add(headNode.getKey(), headNode.getValue());
-                    headNode = headNode.getNextNode();
-                }
-            }
-        }
+    private int getHashedIndex(K key) {
+        return (key.hashCode() % this.pnHashNodes.length);
     }
 }
