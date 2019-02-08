@@ -66,4 +66,21 @@ public class PNBinaryTreeImplTest {
         assertEquals(2, pnBinaryTree.height());
     }
 
+    @Test
+    public void remove1() throws Exception {
+        List<Integer> expected = new ArrayList<Integer>(Arrays.asList(e1));
+        pnBinaryTree.insert(e2);
+        pnBinaryTree.insert(e1);
+        pnBinaryTree.remove(e2);
+        assertEquals(expected, pnBinaryTree.getAllData());
+    }
+
+    @Test
+    public void remove2() throws Exception {
+        List<Integer> expected = new ArrayList<Integer>(Arrays.asList(2));
+        pnBinaryTree.insert(e1);
+        pnBinaryTree.insert(e2);
+        pnBinaryTree.remove(e1);
+        assertEquals(expected, pnBinaryTree.getAllData());
+    }
 }

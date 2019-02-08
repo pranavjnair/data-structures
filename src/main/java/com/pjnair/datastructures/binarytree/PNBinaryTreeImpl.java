@@ -42,13 +42,13 @@ public class PNBinaryTreeImpl<T extends Comparable<T>> implements PNBinaryTree<T
         if (isEmpty()) {
             throw new NoSuchElementException();
         } else {
-            removeNode(this.head, t);
+            this.head = removeNode(this.head, t);
         }
     }
 
     private PNLinkedNode removeNode(PNLinkedNode<T> currentNode, T t) {
         if (currentNode == null) {
-            return currentNode;
+            return null;
         }
         int compare = currentNode.getData().compareTo(t);
         if (compare > 0) {

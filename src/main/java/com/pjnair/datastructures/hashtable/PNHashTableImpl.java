@@ -61,7 +61,7 @@ public class PNHashTableImpl<K, V> implements PNHashTable<K, V> {
 
     @Override
     public void add(K key, V value) {
-        PNHashNode currentNode = null;
+        PNHashNode currentNode;
         if (this.pnHashNodes[getHashedIndex(key)] == null) {
             this.pnHashNodes[getHashedIndex(key)] = new PNHashNode(key, value);
         } else {
