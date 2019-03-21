@@ -38,7 +38,7 @@ public class PNBinaryTreeImpl<T extends Comparable<T>> implements PNBinaryTree<T
     }
 
     @Override
-    public void remove(T t) {
+    public void remove(T t) throws NoSuchElementException {
         if (isEmpty()) {
             throw new NoSuchElementException();
         } else {
@@ -46,36 +46,42 @@ public class PNBinaryTreeImpl<T extends Comparable<T>> implements PNBinaryTree<T
         }
     }
 
-    private PNLinkedNode removeNode(PNLinkedNode<T> currentNode, T t) {
+    private PNLinkedNode<T> removeNode(PNLinkedNode<T> currentNode, T t) throws NoSuchElementException {
         if (currentNode == null) {
             return null;
         }
         int compare = currentNode.getData().compareTo(t);
-        if (compare > 0) {
-            currentNode.setLeftNode(removeNode(currentNode.getLeftNode(), t));
-        } else if (compare < 0) {
-            currentNode.setRightNode(removeNode(currentNode.getRightNode(), t));
+        if (compare > 0) { // checks left side
+            if (currentNode.getLeftNode() != null) {
+                currentNode.setLeftNode(removeNode(currentNode.getLeftNode(), t));
+            } else {
+                throw new NoSuchElementException();
+            }
+        } else if (compare < 0) { // checks right side
+            if (currentNode.getRightNode() != null) {
+                currentNode.setRightNode(removeNode(currentNode.getRightNode(), t));
+            } else {
+                throw new NoSuchElementException();
+            }
         } else {
-            if (currentNode.getLeftNode() == null && currentNode.getRightNode() == null) {
-                return null;
-            } else if (currentNode.getLeftNode() == null) {
+            if (currentNode.getLeftNode() == null) {
                 return currentNode.getRightNode();
             } else if (currentNode.getRightNode() == null) {
                 return currentNode.getLeftNode();
             } else {
-                T minValue = (T) minimumElement(currentNode.getRightNode());
-                currentNode.setData(minValue);
-                currentNode.setRightNode(removeNode(currentNode.getRightNode(), minValue));
+                PNLinkedNode<T> minNodeOfRightSubTree = minimumElement(currentNode.getRightNode());
+                remove(minNodeOfRightSubTree.getData());
+                currentNode.setData(minNodeOfRightSubTree.getData());
             }
         }
         return currentNode;
     }
 
-    private Object minimumElement(PNLinkedNode<T> currentNode) {
+    private PNLinkedNode<T> minimumElement(PNLinkedNode<T> currentNode) {
         if (currentNode.getLeftNode() != null) {
             return minimumElement(currentNode.getLeftNode());
         }
-        return currentNode.getData();
+        return currentNode;
     }
 
     @Override
@@ -89,23 +95,24 @@ public class PNBinaryTreeImpl<T extends Comparable<T>> implements PNBinaryTree<T
     @Override
     public boolean search(T t) {
         if (isEmpty()) {
-            throw new NoSuchElementException();
+            return false;
         } else {
             return searchNode(this.head, t);
         }
     }
 
     private boolean searchNode(PNLinkedNode<T> currentNode, T t) {
-        boolean result = false;
+        if (currentNode == null) {
+            return false;
+        }
         int compare = currentNode.getData().compareTo(t);
         if (compare == 0) {
-            result = true;
-        } else if (compare > 0 && currentNode.getLeftNode() != null) {
-            result = searchNode(currentNode.getLeftNode(), t);
-        } else if (compare < 0 && currentNode.getRightNode() != null) {
-            result = searchNode(currentNode.getRightNode(), t);
+            return true;
+        } else if (compare > 0) {
+            return searchNode(currentNode.getLeftNode(), t);
+        } else {
+            return searchNode(currentNode.getRightNode(), t);
         }
-        return result;
     }
 
     @Override
