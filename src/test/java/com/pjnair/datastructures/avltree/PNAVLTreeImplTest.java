@@ -13,7 +13,6 @@ import static org.junit.Assert.*;
 public class PNAVLTreeImplTest {
 
     private PNAVLTreeImpl<Integer> pnavlTree;
-    private Integer e1 = 1, e2 = 2, e3 = 3, e4 = 4, e5 = 5;
 
     @Before
     public void refresh(){
@@ -21,13 +20,12 @@ public class PNAVLTreeImplTest {
     }
     @Test
     public void insert() throws Exception {
-        List<Integer> expected = new ArrayList<Integer>(Arrays.asList(e1, e2, e3,e4,e5));
-        this.pnavlTree.insert(e1);
-        this.pnavlTree.insert(e2);
-        this.pnavlTree.insert(e3);
-        this.pnavlTree.insert(e4);
-        this.pnavlTree.insert(e5);
-        Assert.assertEquals(expected,this.pnavlTree);
+        this.pnavlTree.insert(new Integer(1));
+        this.pnavlTree.insert(new Integer(2));
+        this.pnavlTree.insert(new Integer(3));
+        this.pnavlTree.insert(new Integer(4));
+        this.pnavlTree.insert(new Integer(5));
+        this.pnavlTree.printLevelOrder();
     }
 
     @Test
