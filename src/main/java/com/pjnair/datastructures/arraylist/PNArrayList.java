@@ -40,6 +40,14 @@ public interface PNArrayList<T> {
     T get(int index);
 
     /**
+     * Returns index of object location
+     * @param o - object that is being searched
+     * @return - returns the index of element
+     *         - returns -1 otherwise
+     */
+    int indexOf(Object o);
+
+    /**
      * Checks if ArrayList is empty
      * @return boolean
      */

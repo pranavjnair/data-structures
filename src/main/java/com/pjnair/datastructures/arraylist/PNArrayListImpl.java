@@ -1,5 +1,6 @@
 package com.pjnair.datastructures.arraylist;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -89,6 +90,16 @@ public class PNArrayListImpl<T> implements PNArrayList<T>, Iterable<T> {
     }
 
     @Override
+    public int indexOf(Object o) {
+        for (int i = 0; i < this.size; i++){
+            if (this.array[i].equals(o)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @Override
     public void remove(int index) {
         if (index > this.size || index < 0) {
             throw new IndexOutOfBoundsException();
@@ -154,5 +165,15 @@ public class PNArrayListImpl<T> implements PNArrayList<T>, Iterable<T> {
             }
         };
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "PNArrayListImpl{" +
+                "array=" + Arrays.toString(array) +
+                ", size=" + size +
+                ", currentIndex=" + currentIndex +
+                ", INITIAL_SIZE=" + INITIAL_SIZE +
+                '}';
     }
 }
