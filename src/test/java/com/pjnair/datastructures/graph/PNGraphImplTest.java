@@ -59,9 +59,12 @@ class PNGraphImplTest {
         pnGraph.addVertex(1);
         pnGraph.addVertex(2);
         pnGraph.addVertex(3);
+        pnGraph.printAdjacencyMatrix();
+        System.out.println();
         pnGraph.removeVertex(1);
         pnGraph.printAdjacencyMatrix();
-        pnGraph.removeVertex(3);
+        System.out.println();
+        pnGraph.removeVertex(2);
         pnGraph.printAdjacencyMatrix();
     }
 

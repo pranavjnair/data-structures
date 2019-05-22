@@ -69,7 +69,7 @@ public class PNGraphImpl implements PNGraph {
 
     private int getIndexOfInteger(Integer vertex){
         for (int i = 0; i < this.nodesInAdjacencyMatrix.length; i++){
-            if (this.nodesInAdjacencyMatrix[i].equals(vertex)){
+            if (!(this.nodesInAdjacencyMatrix[i] == null) && this.nodesInAdjacencyMatrix[i].equals(vertex)){
                 return i;
             }
         }
