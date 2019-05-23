@@ -4,7 +4,7 @@ import com.pjnair.datastructures.graph.undirectedgraph.PNGraphImpl;
 import org.junit.jupiter.api.Test;
 
 class PNGraphImplTest {
-    PNGraphImpl pnGraph = new PNGraphImpl();
+    PNGraphImpl<Integer> pnGraph = new PNGraphImpl<>();
 
     @Test
     void addVertex1(){
@@ -116,7 +116,7 @@ class PNGraphImplTest {
     }
 
     @Test
-    void removeEdge() {
+    void removeEdge1() {
         pnGraph.addVertex(1);
         pnGraph.addVertex(2);
         pnGraph.addVertex(3);
@@ -130,4 +130,36 @@ class PNGraphImplTest {
         pnGraph.printAdjacencyMatrix();
     }
 
+    @Test
+    void removeEdge2() {
+        pnGraph.addVertex(1);
+        pnGraph.addVertex(2);
+        pnGraph.addVertex(3);
+        pnGraph.printAdjacencyMatrix();
+        pnGraph.addEdge(1, 2);
+        pnGraph.addEdge(2, 3);
+        System.out.println();
+        pnGraph.printAdjacencyMatrix();
+        System.out.println();
+        pnGraph.removeEdge(1,2);
+        pnGraph.printAdjacencyMatrix();
+        pnGraph.removeEdge(1,2);
+        System.out.println();
+        pnGraph.printAdjacencyMatrix();
+    }
+
+    @Test
+    void removeEdge3() {
+        pnGraph.addVertex(1);
+        pnGraph.addVertex(2);
+        pnGraph.addVertex(3);
+        pnGraph.printAdjacencyMatrix();
+        pnGraph.addEdge(1, 2);
+        pnGraph.addEdge(2, 3);
+        System.out.println();
+        pnGraph.printAdjacencyMatrix();
+        pnGraph.removeEdge(4, 5);
+        System.out.println();
+        pnGraph.printAdjacencyMatrix();
+    }
 }
