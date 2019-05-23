@@ -1,10 +1,7 @@
 package com.pjnair.datastructures.graph;
 
+import com.pjnair.datastructures.graph.undirectedgraph.PNGraphImpl;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PNGraphImplTest {
     PNGraphImpl pnGraph = new PNGraphImpl();
@@ -55,7 +52,18 @@ class PNGraphImplTest {
     }
 
     @Test
-    void removeVertex(){
+    void removeVertex1(){
+        pnGraph.addVertex(1);
+        pnGraph.addVertex(2);
+        pnGraph.addVertex(3);
+        pnGraph.printAdjacencyMatrix();
+        System.out.println();
+        pnGraph.removeVertex(1);
+        pnGraph.printAdjacencyMatrix();
+    }
+
+    @Test
+    void removeVertex2(){
         pnGraph.addVertex(1);
         pnGraph.addVertex(2);
         pnGraph.addVertex(3);
@@ -68,7 +76,58 @@ class PNGraphImplTest {
         pnGraph.printAdjacencyMatrix();
     }
 
+    @Test
+    void removeVertex3(){
+        pnGraph.addVertex(1);
+        pnGraph.addVertex(2);
+        pnGraph.addVertex(3);
+        pnGraph.printAdjacencyMatrix();
+        System.out.println();
+        pnGraph.removeVertex(0);
+        pnGraph.printAdjacencyMatrix();
+    }
 
+    @Test
+    void removeVertex4(){
+        pnGraph.addVertex(1);
+        pnGraph.addVertex(2);
+        pnGraph.addVertex(3);
+        pnGraph.printAdjacencyMatrix();
+        System.out.println();
+        pnGraph.removeVertex(1);
+        pnGraph.printAdjacencyMatrix();
+        System.out.println();
+        pnGraph.removeVertex(1);
+        pnGraph.printAdjacencyMatrix();
+    }
 
+    @Test
+    void removeVertex5(){
+        pnGraph.addVertex(1);
+        pnGraph.addVertex(2);
+        pnGraph.addVertex(3);
+        pnGraph.printAdjacencyMatrix();
+        System.out.println();
+        pnGraph.removeVertex(0);
+        pnGraph.printAdjacencyMatrix();
+        System.out.println();
+        pnGraph.removeVertex(2);
+        pnGraph.printAdjacencyMatrix();
+    }
+
+    @Test
+    void removeEdge() {
+        pnGraph.addVertex(1);
+        pnGraph.addVertex(2);
+        pnGraph.addVertex(3);
+        pnGraph.printAdjacencyMatrix();
+        pnGraph.addEdge(1, 2);
+        pnGraph.addEdge(2, 3);
+        System.out.println();
+        pnGraph.printAdjacencyMatrix();
+        System.out.println();
+        pnGraph.removeEdge(1,2);
+        pnGraph.printAdjacencyMatrix();
+    }
 
 }

@@ -1,16 +1,16 @@
-package com.pjnair.datastructures.graph;
+package com.pjnair.datastructures.graph.undirectedgraph;
 
-import com.pjnair.datastructures.arraylist.PNArrayListImpl;
+import com.pjnair.datastructures.graph.undirectedgraph.PNGraph;
 
 public class PNGraphImpl implements PNGraph {
 
     private int totalVertices = 0;
     private final int START_SIZE = 5;
-    private Integer[][] adjacencyMatrix = new Integer[START_SIZE][START_SIZE]; // remember to change to private
+    private Integer[][] adjacencyMatrix = new Integer[START_SIZE][START_SIZE];
     private Integer[] nodesInAdjacencyMatrix = new Integer[START_SIZE];
 
     public PNGraphImpl() {
-        for (int i = 0; i < this.nodesInAdjacencyMatrix.length; i++){
+        for (int i = 0; i < this.nodesInAdjacencyMatrix.length; i++) {
             this.nodesInAdjacencyMatrix[i] = null;
         }
         for (int i = 0; i < this.adjacencyMatrix.length; i++) {
@@ -63,13 +63,15 @@ public class PNGraphImpl implements PNGraph {
     public void addEdge(Integer vertexA, Integer vertexB) {
         int vertexAIndex = getIndexOfInteger(vertexA);
         int vertexBIndex = getIndexOfInteger(vertexB);
-        this.adjacencyMatrix[vertexAIndex][vertexBIndex] = 1;
-        this.adjacencyMatrix[vertexBIndex][vertexAIndex] = 1;
+        if (vertexAIndex >= 0 && vertexBIndex >= 0) {
+            this.adjacencyMatrix[vertexAIndex][vertexBIndex] = 1;
+            this.adjacencyMatrix[vertexBIndex][vertexAIndex] = 1;
+        }
     }
 
-    private int getIndexOfInteger(Integer vertex){
-        for (int i = 0; i < this.nodesInAdjacencyMatrix.length; i++){
-            if (!(this.nodesInAdjacencyMatrix[i] == null) && this.nodesInAdjacencyMatrix[i].equals(vertex)){
+    private int getIndexOfInteger(Integer vertex) {
+        for (int i = 0; i < this.nodesInAdjacencyMatrix.length; i++) {
+            if (!(this.nodesInAdjacencyMatrix[i] == null) && this.nodesInAdjacencyMatrix[i].equals(vertex)) {
                 return i;
             }
         }
@@ -94,8 +96,8 @@ public class PNGraphImpl implements PNGraph {
         this.adjacencyMatrix = newAdjacencyMatrix;
     }
 
-    private void removeIndexOfInteger(int indexToRemove){
-        if (indexToRemove < 0){
+    private void removeIndexOfInteger(int indexToRemove) {
+        if (indexToRemove < 0) {
             return;
         }
         this.nodesInAdjacencyMatrix[indexToRemove] = null;
@@ -103,7 +105,12 @@ public class PNGraphImpl implements PNGraph {
 
     @Override
     public void removeEdge(Integer vertexA, Integer vertexB) {
-
+        int vertexEdgeVertexAIndex = getIndexOfInteger(vertexA);
+        int vertexEdgeVertexBIndex = getIndexOfInteger(vertexB);
+        if (vertexEdgeVertexAIndex >= 0 && vertexEdgeVertexBIndex >= 0) {
+            this.adjacencyMatrix[vertexEdgeVertexAIndex][vertexEdgeVertexBIndex] = null;
+            this.adjacencyMatrix[vertexEdgeVertexBIndex][vertexEdgeVertexAIndex] = null;
+        }
     }
 
     public void printAdjacencyMatrix() {

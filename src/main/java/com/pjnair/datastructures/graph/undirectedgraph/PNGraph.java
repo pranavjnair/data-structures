@@ -1,4 +1,4 @@
-package com.pjnair.datastructures.graph;
+package com.pjnair.datastructures.graph.undirectedgraph;
 
 public interface PNGraph {
     void addVertex(Integer vertex);
