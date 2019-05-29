@@ -20,6 +20,12 @@ public class PNArrayListImpl<T> implements PNArrayList<T>, Iterable<T> {
         this.currentIndex = 0;
     }
 
+    public PNArrayListImpl(int size) {
+        this.array = (T[]) new Object[size];
+        this.size = 0;
+        this.currentIndex = 0;
+    }
+
     private void expandArray() {
         if (this.size >= this.array.length) {
             this.array = (T[]) PNArrays.copyOf(this.array, this.array.length * 2);
