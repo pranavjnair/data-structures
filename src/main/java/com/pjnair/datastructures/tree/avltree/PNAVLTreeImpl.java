@@ -1,20 +1,11 @@
-package com.pjnair.datastructures.avltree;
+package com.pjnair.datastructures.tree.avltree;
 
 /**
  * Pranav Nair
- * Lecture 002
- * pjnair@wisc.edu
- * <p>
- * Due date February 24, 2019 10:00 PM
- * Read from Geeksforgeeks and watched youtube videos to remember how to delete and insert a node
- * in a AVL search tree. Took some information from p1 implementation to create my binary search tree
- * <p>
- * was having a problem when running some datastructureadttests with the amount of numKeys in my
- * BST and could not figure out where that problem was coming from. That is the only bug that I
- * know of at time of submission.
  */
 
-import com.pjnair.datastructures.binarytree.*;
+import com.pjnair.datastructures.tree.binarytree.*;
+import com.pjnair.datastructures.tree.PNTreeNode;
 
 /**
  * Implementation of AVL using a key and a value
@@ -29,12 +20,12 @@ public class PNAVLTreeImpl<K extends Comparable<K>, V> extends PNBinaryTreeImpl<
      *
      * @param key   - key to insert
      * @param value - value to insert
-     * @throws IllegalNullKeyException - key can not be null
-     * @throws DuplicateKeyException   - key can not already exist
      */
     @Override
-    public void insert(K key, V value) throws IllegalNullKeyException, DuplicateKeyException {
-        if (isEmpty()) {
+    public void insert(K key, V value) throws NullPointerException {
+        if (key == null){
+            throw new NullPointerException();
+        } else if (isEmpty()) {
             this.root = new PNTreeNode<>(key, value, null, null);
         } else {
             this.root = insertNode(this.root, key, value);
@@ -47,16 +38,13 @@ public class PNAVLTreeImpl<K extends Comparable<K>, V> extends PNBinaryTreeImpl<
      * @param currentNode - current node in Search Tree
      * @param key         - key to insert
      * @param value       - value to insert
-     * @throws DuplicateKeyException - key can not already exist
      */
-    private PNTreeNode<K, V> insertNode(PNTreeNode<K, V> currentNode, K key, V value) throws DuplicateKeyException {
+    private PNTreeNode<K, V> insertNode(PNTreeNode<K, V> currentNode, K key, V value){
         if (currentNode == null) {
             currentNode = new PNTreeNode<>(key, value, null, null); // adds node to Search Tree
         } else {
             int compare = key.compareTo(currentNode.key); // compares key to currentNode.key
-            if (compare == 0) {
-                throw new DuplicateKeyException(); // key can not already exist
-            } else if (compare < 0) {
+            if (compare < 0) {
                 currentNode.left = insertNode(currentNode.left, key, value); // recursive call on left node
             } else {
                 currentNode.right = insertNode(currentNode.right, key, value); // recursive call on right node
@@ -70,22 +58,20 @@ public class PNAVLTreeImpl<K extends Comparable<K>, V> extends PNBinaryTreeImpl<
      *
      * @param key - key to remove
      * @return - returns Search Tree with node removed
-     * @throws IllegalNullKeyException - key can not be null
-     * @throws KeyNotFoundException    - key doesn't exist in Search Tree
      */
     @Override
-    public boolean remove(K key) throws IllegalNullKeyException, KeyNotFoundException {
+    public boolean remove(K key) throws NullPointerException {
         if (key == null) {
-            throw new IllegalNullKeyException(); // key can not be null
+            throw new NullPointerException(); // key can not be null
         } else if (isEmpty()) {
-            throw new KeyNotFoundException(); // key does not exist
+            return false; // key does not exist
         } else {
             if (contains(key)) {
                 this.root = removeHelper(key, this.root); // removes node from Search Tree
                 this.numKeys--; // decrements numKeys
                 return true; // return value
             } else {
-                throw new KeyNotFoundException(); // key does not exist
+                return false; // key does not exist
             }
         }
     }

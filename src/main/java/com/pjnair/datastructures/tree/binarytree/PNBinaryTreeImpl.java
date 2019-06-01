@@ -1,18 +1,11 @@
-package com.pjnair.datastructures.binarytree;
+package com.pjnair.datastructures.tree.binarytree;
 
 /**
  * Pranav Nair
- * Lecture 002
- * pjnair@wisc.edu
- * <p>
- * Due date February 24, 2019 10:00 PM
- * Read from Geeksforgeeks and watched youtube videos to remember how to delete and insert a node
- * in a AVL search tree. Took some information from p1 implementation to create my binary search tree
- * <p>
- * was having a problem when running some datastructureadttests with the amount of numKeys in my
- * BST and could not figure out where that problem was coming from. That is the only bug that I
- * know of at time of submission.
  */
+
+import com.pjnair.datastructures.tree.PNTree;
+import com.pjnair.datastructures.tree.PNTreeNode;
 
 import java.util.ArrayList; // allowed for creating traversal lists
 import java.util.List; // required for returning List<K>
@@ -23,23 +16,16 @@ import java.util.List; // required for returning List<K>
  * @param <K> - key in BST
  * @param <V> - value in BST
  */
-public class PNBinaryTreeImpl<K extends Comparable<K>, V> implements BSTADT<K, V> {
+public class PNBinaryTreeImpl<K extends Comparable<K>, V> implements PNTree<K, V> {
 
-    // Tip: Use protected fields so that they may be inherited by AVL
     protected PNTreeNode<K, V> root;
     protected int numKeys; // number of keys in BST
 
-    // Must have a public, default no-arg constructor
     public PNBinaryTreeImpl() {
         this.root = null;
         this.numKeys = 0;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see SearchTreeADT#getPreOrderTraversal()
-     */
     @Override
     public List<K> getPreOrderTraversal() {
         ArrayList<K> preOrderTraversalArrayList = new ArrayList<>(); // creates ArrayList
@@ -68,11 +54,6 @@ public class PNBinaryTreeImpl<K extends Comparable<K>, V> implements BSTADT<K, V
         return preOrderTraversalArrayList; // return ArrayList
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see SearchTreeADT#getPostOrderTraversal()
-     */
     @Override
     public List<K> getPostOrderTraversal() {
         ArrayList postOrderTraversalArrayList = new ArrayList<>(); // creates ArrayList
@@ -114,11 +95,6 @@ public class PNBinaryTreeImpl<K extends Comparable<K>, V> implements BSTADT<K, V
         return postOrderTraversalArrayList; // return ArrayList
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see SearchTreeADT#getLevelOrderTraversal()
-     */
     @Override
     public List<K> getLevelOrderTraversal() {
         ArrayList<K> levelOrderTraversalArrayList = new ArrayList<>(); // creates ArrayList
@@ -152,11 +128,6 @@ public class PNBinaryTreeImpl<K extends Comparable<K>, V> implements BSTADT<K, V
         return levelOrderTraversalArrayList; // return ArrayList
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see SearchTreeADT#getInOrderTraversal()
-     */
     @Override
     public List<K> getInOrderTraversal() {
         ArrayList<K> inOrderTraversalArrayList = new ArrayList<>(); // creates ArrayList
@@ -190,21 +161,16 @@ public class PNBinaryTreeImpl<K extends Comparable<K>, V> implements BSTADT<K, V
         return inOrderTraversalArrayList; // return ArrayList
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see DataStructureADT#insert(java.lang.Comparable, java.lang.Object)
-     */
     @Override
-    public void insert(K key, V value) throws IllegalNullKeyException, DuplicateKeyException {
+    public void insert(K key, V value) throws NullPointerException {
         if (key == null) {
-            throw new IllegalNullKeyException(); // key can not be null
+            throw new NullPointerException(); // key can not be null
         } else if (isEmpty()) {
             this.root = new PNTreeNode<K, V>(key, value, null, null); // root becomes a new node
+            this.numKeys++; // increments numKeys
         } else {
             insertHelper(this.root, key, value); // recursive call inserts node
         }
-        this.numKeys++; // increments numKeys
     }
 
     /**
@@ -213,45 +179,39 @@ public class PNBinaryTreeImpl<K extends Comparable<K>, V> implements BSTADT<K, V
      * @param currentNode - current node in Search Tree
      * @param key         - key to insert
      * @param value       - value to insert
-     * @throws DuplicateKeyException - key can not already exist
      */
-    private void insertHelper(PNTreeNode<K, V> currentNode, K key, V value) throws DuplicateKeyException {
+    private void insertHelper(PNTreeNode<K, V> currentNode, K key, V value) {
         int compare = key.compareTo(currentNode.key); // compares key to currentNode.key
-        if (compare == 0) {
-            throw new DuplicateKeyException(); // key can not already exist
-        } else if (compare > 0) {
+        if (compare > 0) {
             if (currentNode.right == null) {
                 currentNode.right = new PNTreeNode<K, V>(key, value, null, null); // adds node to search tree
+                this.numKeys++; // increments numKeys
             } else {
                 insertHelper(currentNode.right, key, value); // recursive call on right node
             }
-        } else {
+        } else if (compare < 0){
             if (currentNode.left == null) {
                 currentNode.left = new PNTreeNode<K, V>(key, value, null, null); // adds node to search tree
+                this.numKeys++; // increments numKeys
             } else {
                 insertHelper(currentNode.left, key, value); // recursive call on left node
             }
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see DataStructureADT#remove(java.lang.Comparable)
-     */
     @Override
-    public boolean remove(K key) throws IllegalNullKeyException, KeyNotFoundException {
+    public boolean remove(K key) throws NullPointerException {
         if (key == null) {
-            throw new IllegalNullKeyException(); // key can not be null
+            throw new NullPointerException(); // key can not be null
         } else if (isEmpty()) {
-            throw new KeyNotFoundException(); // key doesn't exist in Search Tree
+            return false; // key doesn't exist in Search Tree
         } else {
             if (contains(key)) {
                 this.root = removeHelper(this.root, key); // removes node from Search Tree
                 this.numKeys--; // decrements numKeys
                 return true; // return value
             } else {
-                throw new KeyNotFoundException(); // key does not exist
+                return false; // key does not exist
             }
         }
     }
@@ -262,10 +222,8 @@ public class PNBinaryTreeImpl<K extends Comparable<K>, V> implements BSTADT<K, V
      * @param currentNode - current node in Search Tree
      * @param key         - key to remove
      * @return - returns Search Tree with node removed
-     * @throws IllegalNullKeyException - key can not be null
-     * @throws KeyNotFoundException    - key doesn't exist in Search Tree
      */
-    private PNTreeNode<K, V> removeHelper(PNTreeNode<K, V> currentNode, K key) throws IllegalNullKeyException, KeyNotFoundException {
+    private PNTreeNode<K, V> removeHelper(PNTreeNode<K, V> currentNode, K key) throws NullPointerException {
         int compare = key.compareTo(currentNode.key); // compares key to currentNode.key
         if (compare > 0) {
             currentNode.right = removeHelper(currentNode.right, key); // recursive call on right node
@@ -299,17 +257,12 @@ public class PNBinaryTreeImpl<K extends Comparable<K>, V> implements BSTADT<K, V
         return currentNode; // return current node
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see DataStructureADT#get(java.lang.Comparable)
-     */
     @Override
-    public V get(K key) throws IllegalNullKeyException, KeyNotFoundException {
+    public V get(K key) throws NullPointerException {
         if (key == null) {
-            throw new IllegalNullKeyException(); // key can not be null
+            throw new NullPointerException(); // key can not be null
         } else if (isEmpty()) {
-            throw new KeyNotFoundException(); // key does not exist
+            return null; // key does not exist
         } else {
             return getHelper(key, this.root); // return recursive call from root
         }
@@ -321,36 +274,30 @@ public class PNBinaryTreeImpl<K extends Comparable<K>, V> implements BSTADT<K, V
      * @param key         - key that is being searched for
      * @param currentNode - current node in Search Tree
      * @return - returns the value of the key in Search Tree
-     * @throws KeyNotFoundException - key does not exist
      */
-    private V getHelper(K key, PNTreeNode<K, V> currentNode) throws KeyNotFoundException {
+    private V getHelper(K key, PNTreeNode<K, V> currentNode) {
         int compare = key.compareTo(currentNode.key); // compares key to currentNode.key
         if (compare > 0) {
             if (currentNode.right != null) {
                 return getHelper(key, currentNode.right); // recursive call on right node
             } else {
-                throw new KeyNotFoundException(); // key does not exist
+                return null; // key does not exist
             }
         } else if (compare < 0) {
             if (currentNode.left != null) {
                 return getHelper(key, currentNode.left); // recursive call on left node
             } else {
-                throw new KeyNotFoundException(); // key does not exist
+                return null; // key does not exist
             }
         } else {
             return currentNode.value; // returns value of current node
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see DataStructureADT#contains(java.lang.Comparable)
-     */
     @Override
-    public boolean contains(K key) throws IllegalNullKeyException {
+    public boolean contains(K key) throws NullPointerException {
         if (key == null) {
-            throw new IllegalNullKeyException(); // key can not be null
+            throw new NullPointerException(); // key can not be null
         } else if (isEmpty()) {
             return false; // does not contain key
         } else {
@@ -384,125 +331,11 @@ public class PNBinaryTreeImpl<K extends Comparable<K>, V> implements BSTADT<K, V
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see DataStructureADT#numKeys()
-     */
     @Override
     public int numKeys() {
         return this.numKeys;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see BSTADT#getKeyAtRoot()
-     */
-    @Override
-    public K getKeyAtRoot() {
-        return this.root.key;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see BSTADT#getKeyOfLeftChildOf(java.lang.Comparable)
-     */
-    @Override
-    public K getKeyOfLeftChildOf(K key) throws IllegalNullKeyException, KeyNotFoundException {
-        if (key == null) {
-            throw new IllegalNullKeyException(); // key can not be null
-        } else if (isEmpty()) {
-            throw new KeyNotFoundException(); // key does not exist
-        } else {
-            return getKeyOfLeftChildOfHelper(this.root, key); // recursive call from root
-        }
-    }
-
-    /**
-     * Gets key of left child from node that contains search for key
-     *
-     * @param currentNode - current node in Search Tree
-     * @param key         - key that is being looked for
-     * @return - key of left child from node containing key
-     * @throws KeyNotFoundException - key does not exist
-     */
-    private K getKeyOfLeftChildOfHelper(PNTreeNode<K, V> currentNode, K key) throws KeyNotFoundException {
-        int compare = key.compareTo(currentNode.key); // compares key to currentNode.key
-        if (compare > 0) {
-            if (currentNode.right != null) {
-                return getKeyOfLeftChildOfHelper(currentNode.right, key); // recursive call on right node
-            } else {
-                throw new KeyNotFoundException(); // key does not exist
-            }
-        } else if (compare < 0) {
-            if (currentNode.left != null) {
-                return getKeyOfLeftChildOfHelper(currentNode.left, key); // recursive call on left node
-            } else {
-                throw new KeyNotFoundException(); // key does not exist
-            }
-        } else {
-            if (currentNode.left != null) {
-                return currentNode.left.key; // return value
-            } else {
-                throw new KeyNotFoundException(); // key does not exist
-            }
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see BSTADT#getKeyOfRightChildOf(java.lang.Comparable)
-     */
-    @Override
-    public K getKeyOfRightChildOf(K key) throws IllegalNullKeyException, KeyNotFoundException {
-        if (key == null) {
-            throw new IllegalNullKeyException(); // key can not be null
-        } else if (isEmpty()) {
-            throw new KeyNotFoundException(); // key does not exist
-        } else {
-            return getKeyOfRightChildOfHelper(this.root, key); // recursive call from right
-        }
-    }
-
-    /**
-     * Gets key of right child from node that contains search for key
-     *
-     * @param currentNode - current node in Search Tree
-     * @param key         - key that is being looked for
-     * @return - key of right child from node containing ke
-     * @throws KeyNotFoundException - key does not exist
-     */
-    private K getKeyOfRightChildOfHelper(PNTreeNode<K, V> currentNode, K key) throws KeyNotFoundException {
-        int compare = key.compareTo(currentNode.key); // compares key to currentNode.key
-        if (compare > 0) {
-            if (currentNode.right != null) {
-                return getKeyOfRightChildOfHelper(currentNode.right, key); // recursive call on right node
-            } else {
-                throw new KeyNotFoundException(); // key does not exist
-            }
-        } else if (compare < 0) {
-            if (currentNode.left != null) {
-                return getKeyOfRightChildOfHelper(currentNode.left, key); // recursive call on left node
-            } else {
-                throw new KeyNotFoundException(); // key does not exist
-            }
-        } else {
-            if (currentNode.right != null) {
-                return currentNode.right.key; // return value
-            } else {
-                throw new KeyNotFoundException(); // key does not exist
-            }
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see BSTADT#getHeight()
-     */
     @Override
     public int getHeight() {
         return getHeightHelper(this.root); // return recursive call for height

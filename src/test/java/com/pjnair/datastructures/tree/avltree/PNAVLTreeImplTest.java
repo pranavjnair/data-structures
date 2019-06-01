@@ -1,24 +1,10 @@
-package com.pjnair.datastructures.avltree;
+package com.pjnair.datastructures.tree.avltree;
 
 /**
  * Pranav Nair
- * Lecture 002
- * pjnair@wisc.edu
- * <p>
- * Due date February 24, 2019 10:00 PM
- * Read from Geeksforgeeks and watched youtube videos to remember how to delete and insert a node
- * in a AVL search tree. Took some information from p1 implementation to create my binary search tree
- * <p>
- * was having a problem when running some datastructureadttests with the amount of numKeys in my
- * BST and could not figure out where that problem was coming from. That is the only bug that I
- * know of at time of submission.
  */
 
-import com.pjnair.datastructures.arraylist.PNArrayListImpl;
-import com.pjnair.datastructures.binarytree.PNBinaryTreeImpl;
-import com.pjnair.datastructures.binarytree.PNBinaryTreeImplTest;
 import org.junit.Assert;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
@@ -42,98 +28,6 @@ public class PNAVLTreeImplTest {
     void refresh() throws Exception {
         avl = new PNAVLTreeImpl<>();
         avl2 = new PNAVLTreeImpl<>();
-    }
-
-
-    @Test
-    void testAVL_001_insert_sorted_order_simple() {
-        try {
-            avl2.insert(10, "10");
-            if (!avl2.getKeyAtRoot().equals(10))
-                fail("avl insert at root does not work");
-
-            avl2.insert(20, "20");
-            if (!avl2.getKeyOfRightChildOf(10).equals(20))
-                fail("avl insert to right child of root does not work");
-
-            avl2.insert(30, "30");
-            Integer k = avl2.getKeyAtRoot();
-            if (!k.equals(20))
-                fail("avl rotate does not work");
-
-            // IF rebalancing is working,
-            // the tree should have 20 at the root
-            // and 10 as its left child and 30 as its right child
-
-            Assert.assertEquals(avl2.getKeyAtRoot(), new Integer(20));
-            Assert.assertEquals(avl2.getKeyOfLeftChildOf(20), new Integer(10));
-            Assert.assertEquals(avl2.getKeyOfRightChildOf(20), new Integer(30));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("Unexpected exception AVL 000: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Insert three values in reverse sorted order and then check the root, left,
-     * and right keys to see if rebalancing occurred in the other direction.
-     */
-    @Test
-    void testAVL_002_insert_reversed_sorted_order_simple() {
-        try {
-            avl.insert("C", "C");
-            avl.insert("B", "B");
-            avl.insert("A", "A");
-        } catch (Exception e) {
-        }
-        System.out.println(avl.getLevelOrderTraversal());
-        List result = new ArrayList(Arrays.asList("B", "A", "C"));
-        assertEquals(avl.getLevelOrderTraversal(), result);
-    }
-
-    /**
-     * Insert three values so that a right-left rotation is needed to fix the
-     * balance.
-     * <p>
-     * Example: 10-30-20
-     * <p>
-     * Then check the root, left, and right keys to see if rebalancing occurred in
-     * the other direction.
-     */
-    @Test
-    void testAVL_003_insert_smallest_largest_middle_order_simple() {
-        try {
-            avl.insert("A", "A");
-            avl.insert("C", "C");
-            avl.insert("B", "B");
-        } catch (Exception e) {
-        }
-        System.out.println(avl.getLevelOrderTraversal());
-        List result = new ArrayList(Arrays.asList("B", "A", "C"));
-        assertEquals(avl.getLevelOrderTraversal(), result);
-    }
-
-    /**
-     * Insert three values so that a left-right rotation is needed to fix the
-     * balance.
-     * <p>
-     * Example: 30-10-20
-     * <p>
-     * Then check the root, left, and right keys to see if rebalancing occurred in
-     * the other direction.
-     */
-    @Test
-    void testAVL_003_insert_largest_smallest_middle_order_simple() {
-        try {
-            avl.insert("C", "C");
-            avl.insert("A", "A");
-            avl.insert("B", "B");
-        } catch (Exception e) {
-        }
-        System.out.println(avl.getLevelOrderTraversal());
-        List result = new ArrayList(Arrays.asList("B", "A", "C"));
-        assertEquals(avl.getLevelOrderTraversal(), result);
     }
 
     // My tests
