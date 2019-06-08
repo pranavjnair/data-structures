@@ -1,8 +1,5 @@
 # Data Structure Implementations
 This project contains a implementations for the following data strcutures
-:
-:
-
 
 ## Data Structures
 ### ArrayList
