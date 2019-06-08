@@ -21,8 +21,4 @@ Implementation of Hashtable
 Implementation of the AVL Tree data structure
 
 
-## Testing the Code
-
-## TODO
-- work on insert with avl tree
 
