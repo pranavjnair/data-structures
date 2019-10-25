@@ -15,7 +15,6 @@ import static org.junit.Assert.*;
 
 import org.junit.jupiter.api.Test;
 
-//@SuppressWarnings("rawtypes")
 public class PNAVLTreeImplTest {
 
     PNAVLTreeImpl<String, String> avl;
